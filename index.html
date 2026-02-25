@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大和電気鉄道株式会社 | DAIDEN Railway Official</title>
+    <style>
+        :root {
+            --main-navy: #001f3f;
+            --accent-gold: #c5a059;
+            --express-red: #d63031;
+            --local-green: #27ae60;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+            margin: 0;
+            background-color: var(--bg-light);
+            color: var(--main-navy);
+            line-height: 1.6;
+        }
+
+        /* ヘッダー */
+        header {
+            background-color: var(--main-navy);
+            color: var(--white);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--accent-gold);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo h1 { margin: 0; font-size: 20px; letter-spacing: 4px; }
+
+        nav ul { display: flex; list-style: none; gap: 20px; margin: 0; padding: 0; font-size: 13px; }
+        nav ul li { cursor: pointer; }
+        nav ul li:hover { color: var(--accent-gold); }
+
+        /* 運行状況 */
+        .status-bar {
+            background: #fff;
+            padding: 10px 5%;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-size: 14px;
+        }
+
+        .status-indicator {
+            background: var(--local-green);
+            color: white;
+            padding: 2px 12px;
+            border-radius: 20px;
+            margin-right: 15px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        /* メインビジュアル */
+        .hero {
+            height: 400px;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2)), 
+                        url('https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero h2 { font-size: 36px; margin-bottom: 10px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .hero p { font-size: 18px; letter-spacing: 1px; }
+
+        /* コンテンツ配置 */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        .top-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+
+        /* 鳳凰パネル */
+        .houou-panel {
+            background: linear-gradient(135deg, var(--main-navy) 0%, #003366 100%);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-reserve {
+            background: var(--accent-gold);
+            color: var(--main-navy);
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        /* 車両図鑑セクション */
+        .fleet-section { background-color: #ebeef2; padding: 60px 0; }
+        .fleet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .train-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-bottom: 4px solid #ddd;
+        }
+
+        .train-img {
+            height: 150px;
+            background-color: #333;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            padding: 10px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        .spec-body { padding: 15px; }
+        .series-tag { font-family: monospace; font-size: 14px; background: #eee; padding: 2px 6px; border-radius: 3px; }
+        
+        .spec-list { list-style: none; padding: 0; margin: 10px 0; font-size: 13px; }
+        .spec-list li { display: flex; justify-content: space-between; border-bottom: 1px solid #f0f0f0; padding: 3px 0; }
+
+        /* 系列別カラー */
+        .b-gold { border-color: var(--accent-gold); }
+        .b-green { border-color: var(--local-green); }
+        .b-red { border-color: var(--express-red); }
+
+        footer { background: var(--main-navy); color: #999; padding: 40px 5%; text-align: center; font-size: 13px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo"><h1>大和電気鉄道</h1></div>
+    <nav>
+    <ul>
+        <li onclick="location.href='#timetable'">時刻表</li>
+        <li><a href="#fare-info" style="color: inherit; text-decoration: none;">運賃案内</a></li>
+        <li><a href="#fleet-section" style="color: inherit; text-decoration: none;">車両図鑑</a></li>
+        <li>Yamato-ca</li>
+    </ul>
+</nav>
+</header>
+
+<div class="status-bar">
+    <span class="status-indicator">平常運転</span>
+    <span>全線で平常通り運転しています。34系・55系による高頻度ダイヤ実施中。</span>
+</div>
+
+<div class="hero">
+    <h2>古都の風を、最新の技術で。</h2>
+    <p>1,000両の5桁ナンバリング、大和の誇り。</p>
+</div>
+
+<section id="unified-booking" class="card" style="border-top: 5px solid #ccc; padding: 40px; background: white; border-radius: 15px; transition: border-color 0.5s ease;">
+    <h3 style="text-align: center; color: var(--main-navy); margin-bottom: 25px;">特急座席検索</h3>
+    
+    <div style="max-width: 700px; margin: 0 auto;">
+        <div id="search-box-bg" style="background: #e0e0e0; padding: 30px; border-radius: 15px; color: #666; text-align: center; margin-bottom: 30px; transition: all 0.4s ease;">
+            <label id="input-label" style="display: block; font-size: 0.9rem; margin-bottom: 15px; color: inherit; opacity: 0.8;">車両番号を入力してください</label>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <input type="text" id="target-car-id" placeholder="15201" maxlength="5" oninput="handleKeyInput()"
+                    style="width: 180px; padding: 15px; font-size: 1.8rem; font-family: sans-serif; text-align: center; border-radius: 10px; border: 2px solid #ccc; outline: none; font-weight: bold; transition: border-color 0.4s;">
+                
+                <button id="search-exec-btn" disabled onclick="executeSearch()" 
+                    style="padding: 0 30px; background: #bbb; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: not-allowed; font-size: 1.1rem; transition: all 0.4s ease;">
+                    車両検索
+                </button>
+            </div>
+        </div>
+
+        <div id="seat-map-container" style="display: none; border: 2px solid #eee; border-radius: 20px; padding: 30px; background: #fff; animation: fadeIn 0.5s;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #f0f0f0; padding-bottom: 15px; margin-bottom: 25px;">
+                <div>
+                    <span id="res-car-series" style="background: #666; color: white; padding: 3px 10px; border-radius: 4px; font-size: 0.8rem; transition: background 0.5s;">---</span>
+                    <h4 id="res-car-id-display" style="margin: 5px 0 0 0; font-size: 1.8rem; font-family: sans-serif; font-weight: bold;">00000</h4>
+                </div>
+                <div style="text-align: right;">
+                    <div id="res-car-spec" style="font-weight: bold;">---</div>
+                    <div id="res-car-noise" style="font-size: 0.8rem; color: #888;">---</div>
+                </div>
+            </div>
+
+            <div id="dynamic-seat-grid" style="display: grid; gap: 15px; max-width: 450px; margin: 0 auto;"></div>
+
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 2px dashed #eee; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <span style="font-size: 0.8rem; color: #666;">選択中: </span>
+                    <strong id="final-seat-label">未選択</strong>
+                </div>
+                <div>
+                    <span style="font-size: 1.5rem; font-weight: bold;" id="final-price-display">¥ 0</span>
+                </div>
+            </div>
+            <button id="final-reserve-btn" disabled style="width: 100%; margin-top: 20px; padding: 18px; background: #ccc; border: none; border-radius: 10px; color: white; font-weight: bold; font-size: 1.2rem; cursor: not-allowed; transition: 0.3s;">予約確定</button>
+        </div>
+    </div>
+</section>
+
+<script>
+    // 入力を監視してボタンを光らせる
+    function handleKeyInput() {
+        const val = document.getElementById('target-car-id').value;
+        const btn = document.getElementById('search-exec-btn');
+        const box = document.getElementById('search-box-bg');
+        
+        if (val.length === 5) {
+            let activeColor = "#001f3f"; 
+            if (val.startsWith('15')) activeColor = "#c5a059"; 
+            if (val.startsWith('10')) activeColor = "#d63031"; 
+
+            btn.disabled = false;
+            btn.style.background = activeColor;
+            btn.style.cursor = "pointer";
+            box.style.background = "#222"; 
+            box.style.color = activeColor;
+        } else {
+            btn.disabled = true;
+            btn.style.background = "#bbb";
+            btn.style.cursor = "not-allowed";
+            box.style.background = "#e0e0e0";
+            box.style.color = "#666";
+            // 入力中、もし結果が表示されていたら隠す（リセット感）
+            document.getElementById('seat-map-container').style.display = 'none';
+        }
+    }
+
+    // 車両検索を実行して座席指定を出す
+    function executeSearch() {
+        const idInput = document.getElementById('target-car-id').value;
+        const prefix = idInput.substring(0, 2);
+        const carTypeNum = idInput.substring(2, 3);
+        const section = document.getElementById('unified-booking');
+
+        let themeColor = "#001f3f"; 
+        let info = { name: '', spec: '', noise: '', price: 1200, layout: 4 };
+
+        if (prefix === '15') {
+            themeColor = "#c5a059"; 
+            info.name = '鳳凰';
+            if (carTypeNum === '2') {
+                info.spec = 'ロイヤル・サロンスイート';
+                info.noise = '騒音レベル：極小';
+                info.price = 4700;
+                info.layout = 2;
+            } else {
+                info.spec = '普通車指定席';
+                info.noise = '騒音レベル：小';
+                info.price = 1200;
+                info.layout = 4;
+            }
+        } else if (prefix === '10') {
+            themeColor = "#d63031"; 
+            info.name = 'まほろば';
+            info.spec = (carTypeNum === '1') ? 'プレミアムシート' : '普通車指定席';
+            info.price = (carTypeNum === '1') ? 2000 : 1200;
+            info.noise = '騒音レベル：中';
+            info.layout = 4;
+        } else {
+            alert("該当する特急車両が見つかりません。");
+            return;
+        }
+
+        // 表示の切り替え
+        section.style.borderColor = themeColor;
+        document.getElementById('seat-map-container').style.display = 'block';
+        document.getElementById('res-car-series').innerText = prefix + "系 " + info.name;
+        document.getElementById('res-car-series').style.background = themeColor;
+        document.getElementById('res-car-id-display').innerText = idInput;
+        document.getElementById('res-car-spec').innerText = info.spec;
+        document.getElementById('res-car-noise').innerText = info.noise;
+        document.getElementById('final-price-display').style.color = themeColor;
+
+        // 座席生成
+        const grid = document.getElementById('dynamic-seat-grid');
+        grid.innerHTML = '';
+        grid.style.gridTemplateColumns = `repeat(${info.layout}, 1fr)`;
+
+        for(let i = 1; i <= (info.layout * 3); i++) {
+            const seatName = i + (info.layout === 2 ? "番個室" : "A");
+            const btn = document.createElement('div');
+            btn.style.cssText = "padding:15px; border:1px solid #ddd; border-radius:8px; cursor:pointer; background:white; text-align:center; font-weight:bold; transition:0.2s;";
+            btn.innerText = seatName;
+            btn.onclick = function() {
+                document.querySelectorAll('#dynamic-seat-grid div').forEach(b => {
+                    b.style.background = "white"; b.style.color = "#333";
+                });
+                btn.style.background = themeColor;
+                btn.style.color = "white";
+                document.getElementById('final-seat-label').innerText = idInput + " / " + seatName;
+                document.getElementById('final-price-display').innerText = "¥ " + info.price.toLocaleString();
+                
+                const fBtn = document.getElementById('final-reserve-btn');
+                fBtn.disabled = false;
+                fBtn.style.background = themeColor;
+                fBtn.style.cursor = "pointer";
+            };
+            grid.appendChild(btn);
+        }
+        
+        // スクロールして表示位置へ移動
+        document.getElementById('seat-map-container').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+</script>
+
+<section style="padding: 40px 0; background: #fff;">
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--main-navy); margin-bottom: 20px;">
+            <h2 style="margin: 0; font-size: 1.5rem;">トピックス <span style="font-size: 0.9rem; color: #666; font-weight: normal;">Topics</span></h2>
+            <a href="#" style="font-size: 0.8rem; color: var(--main-navy); text-decoration: none;">一覧を見る ≫</a>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+            <div style="display: flex; gap: 15px; padding: 10px; border-bottom: 1px solid #eee;">
+                <div style="background: var(--local-green); color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; height: fit-content; min-width: 60px; text-align: center;">運行情報</div>
+                <div>
+                    <div style="font-size: 0.8rem; color: #888;">2026.02.24</div>
+                    <a href="#" style="text-decoration: none; color: #333; font-weight: bold; font-size: 0.95rem;">34系・55系「高頻度ダッシュダイヤ」全面導入のお知らせ</a>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 15px; padding: 10px; border-bottom: 1px solid #eee;">
+                <div style="background: var(--accent-gold); color: var(--main-navy); padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; height: fit-content; min-width: 60px; text-align: center;">イベント</div>
+                <div>
+                    <div style="font-size: 0.8rem; color: #888;">2026.02.20</div>
+                    <a href="#" style="text-decoration: none; color: #333; font-weight: bold; font-size: 0.95rem;">大和大阪駅「ドッキング・バルコニー」から鳳凰の連結を見よう！</a>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 15px; padding: 10px; border-bottom: 1px solid #eee;">
+                <div style="background: #7f8c8d; color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; height: fit-content; min-width: 60px; text-align: center;">お知らせ</div>
+                <div>
+                    <div style="font-size: 0.8rem; color: #888;">2026.02.15</div>
+                    <a href="#" style="text-decoration: none; color: #333; font-weight: bold; font-size: 0.95rem;">5桁ナンバリング連動「Yamato-ca」乗車ポイント3倍キャンペーン</a>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 15px; padding: 10px; border-bottom: 1px solid #eee;">
+                <div style="background: var(--express-red); color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; height: fit-content; min-width: 60px; text-align: center;">技術</div>
+                <div>
+                    <div style="font-size: 0.8rem; color: #888;">2026.02.10</div>
+                    <a href="#" style="text-decoration: none; color: #333; font-weight: bold; font-size: 0.95rem;">高槻総合車両所、最新鋭「5桁AI自動検修システム」が稼働開始</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="fare-info" style="padding: 60px 0; background-color: #fff;">
+    <div class="container">
+        <h2 style="text-align: center; color: var(--main-navy); margin-bottom: 30px;">詳細運賃表</h2>
+        
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+            <div style="background: white; border: 1px solid #eee; border-radius: 12px; padding: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                <h3 style="margin-top:0; color: var(--main-navy); border-bottom: 2px solid var(--local-green); display: inline-block;">距離別普通運賃</h3>
+                <p style="font-size: 0.8rem; color: #666; margin-bottom: 20px;">※小児運賃は大人運賃の半額（10円未満切り捨て）です。</p>
+                
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+                    <thead>
+                        <tr style="background: #f8f9fa; border-bottom: 2px solid #ddd;">
+                            <th style="padding: 12px; text-align: left;">営業キロ</th>
+                            <th style="padding: 12px; text-align: right;">大人（切符）</th>
+                            <th style="padding: 12px; text-align: right;">小児（切符）</th>
+                            <th style="padding: 12px; text-align: right; color: var(--local-green);">IC運賃(大人)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 10px;">1km 〜 5km</td>
+                            <td style="text-align: right;">170円</td>
+                            <td style="text-align: right;">80円</td>
+                            <td style="text-align: right; font-weight: bold;">168円</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 10px;">6km 〜 15km</td>
+                            <td style="text-align: right;">220円</td>
+                            <td style="text-align: right;">110円</td>
+                            <td style="text-align: right; font-weight: bold;">215円</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 10px;">16km 〜 30km</td>
+                            <td style="text-align: right;">330円</td>
+                            <td style="text-align: right;">160円</td>
+                            <td style="text-align: right; font-weight: bold;">327円</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee; background-color: #fdfdfd;">
+                            <td style="padding: 10px;">31km 〜 40km</td>
+                            <td style="text-align: right;">450円</td>
+                            <td style="text-align: right;">220円</td>
+                            <td style="text-align: right; font-weight: bold;">445円</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee; background-color: #fdfdfd;">
+                            <td style="padding: 10px;">41km 〜 50km</td>
+                            <td style="text-align: right;">550円</td>
+                            <td style="text-align: right;">270円</td>
+                            <td style="text-align: right; font-weight: bold;">544円</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="font-size: 0.75rem; color: #888; margin-top: 15px;">
+                    ※大和大阪〜大和奈良、大和大阪〜四条烏丸は「31km〜40km」地帯が適用されます。
+                </p>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div style="background: #fdfaf0; border: 1px solid var(--accent-gold); padding: 20px; border-radius: 12px;">
+                    <h4 style="margin-top:0; color: var(--accent-gold);">特急料金（小児半額）</h4>
+                    <p style="font-size: 0.9rem;">全区間一律：<strong>1,200円</strong></p>
+                    <p style="font-size: 0.8rem; color: #666;">（小児：600円）</p>
+                    <hr style="border: 0; border-top: 1px solid #eee;">
+                    <p style="font-size: 0.85rem;"><strong>鳳凰個室料金</strong></p>
+                    <p style="font-size: 0.9rem;">一室：<strong>3,500円(4人まで)</strong></p>
+                    <p style="font-size: 0.7rem; color: #888;">※個室料金は大人・小児同額です。</p>
+                </div>
+
+                <div style="background: var(--main-navy); color: white; padding: 20px; border-radius: 12px;">
+                    <h4 style="margin-top:0; color: var(--accent-gold);">Yamato-ca お得キャンペーン</h4>
+                    <p style="font-size: 0.8rem;">同一月内に同じ運賃区間を10回以上乗車すると、以降の運賃の<strong>10%</strong>をポイント還元！</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="fare-search" style="padding: 60px 0; background-color: #ffffff;">
+    <div class="container">
+        <h2 style="text-align: center; color: var(--main-navy); margin-bottom: 30px;">運賃・経路シミュレーター</h2>
+        
+        <div style="max-width: 850px; margin: 0 auto; background: #f4f7f9; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+            <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 15px; align-items: center; margin-bottom: 25px;">
+                
+                <div>
+                    <label style="display: block; font-size: 0.8rem; margin-bottom: 8px; color: #555; font-weight: bold;">出発駅</label>
+                    <select id="start-station" style="width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 1rem; background: white;">
+                        <option value="osaka">大和大阪 (ターミナル)</option>
+                        <option value="takatsuki">大和高槻 (京都線)</option>
+                        <option value="karasuma">四条烏丸 (京都線終点)</option>
+                        <option value="ikoma">生駒 (奈良線)</option>
+                        <option value="nara">大和奈良 (奈良線終点)</option>
+                    </select>
+                </div>
+
+                <div style="font-size: 1.5rem; color: #aaa; padding-top: 20px;">⇄</div>
+
+                <div>
+                    <label style="display: block; font-size: 0.8rem; margin-bottom: 8px; color: #555; font-weight: bold;">到着駅</label>
+                    <select id="end-station" style="width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 1rem; background: white;">
+                        <option value="nara">大和奈良 (奈良線終点)</option>
+                        <option value="osaka">大和大阪 (ターミナル)</option>
+                        <option value="takatsuki">大和高槻 (京都線)</option>
+                        <option value="karasuma">四条烏丸 (京都線終点)</option>
+                        <option value="ikoma">生駒 (奈良線)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button onclick="calculateFullFare()" style="width: 100%; padding: 18px; background: var(--main-navy); color: white; border: none; border-radius: 12px; font-size: 1.2rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(0,31,63,0.3);">
+                運賃・ポイントを確認
+            </button>
+
+            <div id="full-fare-result" style="display: none; margin-top: 30px; padding: 25px; background: white; border-radius: 15px; border: 1px solid #eee;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 15px;">
+                    <span id="route-label" style="font-weight: bold; color: var(--main-navy);">大和大阪 → 大和奈良</span>
+                    <span id="full-result-price" style="font-size: 2.2rem; font-weight: bold; color: var(--express-red);">---円</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div style="background: #f9f9f9; padding: 15px; border-radius: 10px;">
+                        <span style="font-size: 0.8rem; color: #666;">Yamato-ca 還元ポイント</span><br>
+                        <strong style="font-size: 1.3rem; color: var(--accent-gold);"><span id="full-result-point">--</span> pt</strong>
+                    </div>
+                    <div style="background: #f9f9f9; padding: 15px; border-radius: 10px;">
+                        <span style="font-size: 0.8rem; color: #666;">推奨車両</span><br>
+                        <strong id="rec-train" style="font-size: 1.1rem; color: var(--main-navy);">--系</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function calculateFullFare() {
+        const start = document.getElementById('start-station');
+        const end = document.getElementById('end-station');
+        const startName = start.options[start.selectedIndex].text.split(' ')[0];
+        const endName = end.options[end.selectedIndex].text.split(' ')[0];
+        
+        if(start.value === end.value) {
+            alert("出発駅と到着駅を別にしてください。");
+            return;
+        }
+
+        // 簡易的な運賃ロジック（駅間の距離を想定）
+        const fares = {
+            'osaka-takatsuki': 170, 'osaka-karasuma': 330, 'osaka-ikoma': 220, 'osaka-nara': 330,
+            'takatsuki-karasuma': 220, 'takatsuki-ikoma': 330, 'takatsuki-nara': 450,
+            'karasuma-ikoma': 450, 'karasuma-nara': 550, 'ikoma-nara': 170
+        };
+
+        const key = [start.value, end.value].sort().join('-');
+        const price = fares[key] || 330;
+        const point = Math.floor(price * 0.1);
+
+        // 推奨車両の判定
+        let train = "20系";
+        if(start.value === 'osaka' || end.value === 'osaka') {
+            if(start.value === 'takatsuki' || end.value === 'takatsuki') train = "34系 / 30系";
+            if(start.value === 'ikoma' || end.value === 'ikoma') train = "55系 / 50系";
+        }
+
+        document.getElementById('full-fare-result').style.display = 'block';
+        document.getElementById('route-label').innerText = startName + " ➡ " + endName;
+        document.getElementById('full-result-price').innerText = price + "円";
+        document.getElementById('full-result-point').innerText = point;
+        document.getElementById('rec-train').innerText = train;
+    }
+</script>
+
+<script>
+    function calculateFare() {
+        const select = document.getElementById('arrival-station');
+        const price = select.value;
+        const point = Math.floor(price * 0.1);
+        
+        document.getElementById('fare-result').style.display = 'block';
+        document.getElementById('result-price').innerText = price + '円';
+        document.getElementById('result-point').innerText = point;
+    }
+</script>
+
+<section id="timetable" style="padding: 60px 0; background-color: #f8f9fa;">
+    <div class="container">
+        <h2 style="text-align: center; color: var(--main-navy); margin-bottom: 5px;">標準時刻表</h2>
+        <p style="text-align: center; font-size: 0.9rem; color: #666; margin-bottom: 30px;">大和大阪駅：1〜8番線（京都・奈良方面）</p>
+
+        <div style="background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden;">
+            <div style="display: flex; background: var(--main-navy); color: white;">
+                <div style="padding: 15px 25px; background: var(--accent-gold); color: var(--main-navy); font-weight: bold;">平日ダイヤ</div>
+                <div style="padding: 15px 25px; opacity: 0.7;">土休日ダイヤ</div>
+            </div>
+
+            <div style="padding: 20px; overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; min-width: 600px;">
+                    <thead style="background: #eee; font-size: 0.8rem;">
+                        <tr>
+                            <th style="padding: 10px; text-align: center; width: 60px;">時</th>
+                            <th style="padding: 10px; text-align: left;">発車時刻・種別・行先 (車両系列)</th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-family: 'Helvetica Neue', sans-serif;">
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="text-align: center; font-weight: bold; background: #fdfdfd; font-size: 1.2rem;">8</td>
+                            <td style="padding: 15px;">
+                                <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+                                    <span title="30系">🔴<strong>02</strong> 快急 京都</span>
+                                    <span title="34系" style="color: var(--local-green);">🟢05 普通 高槻</span>
+                                    <span title="10系" style="color: var(--express-red);">特<strong>12</strong> まほろば 奈良</span>
+                                    <span title="55系" style="color: var(--local-green);">🟢15 普通 奈良</span>
+                                    <span title="30系">🔴<strong>22</strong> 快急 京都</span>
+                                    <span title="34系" style="color: var(--local-green);">🟢25 普通 高槻</span>
+                                    <span title="15系+90系" style="border: 1px solid var(--accent-gold); padding: 2px 5px; border-radius: 4px;">
+                                        ✨<strong>30</strong> 鳳凰 奈良
+                                    </span>
+                                    <span title="34系" style="color: var(--local-green);">🟢35 普通 高槻</span>
+                                    <span title="50系">🔴<strong>42</strong> 快急 奈良</span>
+                                    <span title="55系" style="color: var(--local-green);">🟢45 普通 奈良</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="text-align: center; font-weight: bold; background: #fdfdfd; font-size: 1.2rem;">9</td>
+                            <td style="padding: 15px;">
+                                <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+                                    <span title="30系">🔴<strong>02</strong> 快急 京都</span>
+                                    <span title="34系" style="color: var(--local-green);">🟢05 普通 高槻</span>
+                                    <span title="50系">🔴<strong>12</strong> 快急 奈良</span>
+                                    <span title="55系" style="color: var(--local-green);">🟢15 普通 奈良</span>
+                                    <span title="15系+90系" style="border: 1px solid var(--accent-gold); padding: 2px 5px; border-radius: 4px;">
+                                        ✨<strong>30</strong> 鳳凰 奈良
+                                    </span>
+                                    <span title="34系" style="color: var(--local-green);">🟢35 普通 高槻</span>
+                                    <span title="10系" style="color: var(--express-red);">特<strong>42</strong> まほろば 京都</span>
+                                    <span title="55系" style="color: var(--local-green);">🟢45 普通 奈良</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="padding: 15px; background: #f9f9f9; font-size: 0.75rem; display: flex; gap: 20px; color: #555;">
+                <span>🔴...快速急行 (30/50系)</span>
+                <span>🟢...普通 (34/55系)</span>
+                <span>✨...特急鳳凰 (15系+90系連結)</span>
+                <span>特...特急まほろば (10系)</span>
+            </div>
+        </div>
+        <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">※鳳凰は4〜7号車（15系）が特別車両、1〜3号車（90系）が一般車両となります。</p>
+    </div>
+</section>
+
+<section id="train-location" style="padding: 60px 0; background-color: #001f3f; color: white;">
+    <div class="container">
+        <h2 style="text-align: center; color: var(--accent-gold); margin-bottom: 10px;">5桁Naviライブ</h2>
+        <p style="text-align: center; font-size: 0.9rem; margin-bottom: 30px; opacity: 0.8;">
+            乗車中の車両、または気になる車両の「5桁番号」を入力してください。
+        </p>
+
+        <div style="max-width: 600px; margin: 0 auto; background: rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <input type="text" id="car-id-input" placeholder="例: 15201" 
+                    style="flex: 1; padding: 15px; border-radius: 10px; border: none; font-family: monospace; font-size: 1.5rem; text-align: center; color: #333;">
+                <button onclick="searchTrainLocation()" 
+                    style="padding: 0 30px; background: var(--accent-gold); color: var(--main-navy); border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">
+                    追跡
+                </button>
+            </div>
+
+            <div id="location-result" style="display: none; background: white; color: #333; padding: 20px; border-radius: 12px; animation: fadeIn 0.5s;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px;">
+                    <div>
+                        <span id="res-series" style="font-size: 0.8rem; background: #eee; padding: 2px 6px; border-radius: 4px;">15系 鳳凰</span>
+                        <h3 id="res-id" style="margin: 5px 0 0 0; font-family: monospace; font-size: 1.8rem;">15201</h3>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="font-size: 0.7rem; color: #27ae60; font-weight: bold;">● LIVE</span>
+                        <div id="res-status" style="font-size: 1.1rem; font-weight: bold;">大和大阪駅 停車中</div>
+                    </div>
+                </div>
+
+                <div style="font-size: 0.9rem; line-height: 1.8;">
+                    <div><strong>運用:</strong> <span id="res-type">快速特急 鳳凰 12号</span></div>
+                    <div><strong>次駅:</strong> <span id="res-next">大和奈良</span></div>
+                    <div style="margin-top: 10px; padding: 10px; background: #fdfaf0; border-radius: 6px; font-size: 0.8rem;">
+                        <strong>車両設備:</strong> <span id="res-spec">ロイヤル・サロンスイート / Free Wi-Fi / コンセント完備</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+
+<script>
+    function searchTrainLocation() {
+        const id = document.getElementById('car-id-input').value;
+        const result = document.getElementById('location-result');
+        
+        if(!id) return;
+
+        // 簡易的な検索ロジック（実際はサーバーと通信するイメージ）
+        let series = "不明な系列";
+        let type = "各駅停車";
+        let status = "走行中";
+        let spec = "標準設備";
+
+        if(id.startsWith('15')) {
+            series = "15系 鳳凰";
+            type = "快速特急 鳳凰";
+            spec = "ロイヤル個室 / サロン / AI空調";
+        } else if(id.startsWith('34')) {
+            series = "34系 京都線各停";
+            type = "普通 (京都線)";
+            spec = "ワイドドア / 高加速度モーター / ヒップレスト";
+        } else if(id.startsWith('55')) {
+            series = "55系 奈良線各停";
+            type = "普通 (奈良線)";
+            spec = "勾配対応ブレーキ / 半自動ドア / 暖房強化";
+        } else if(id.startsWith('10')) {
+            series = "10系 まほろば";
+            type = "特急 まほろば";
+            spec = "プレミアムシート / フルアクティブサス";
+        }
+
+        document.getElementById('res-series').innerText = series;
+        document.getElementById('res-id').innerText = id;
+        document.getElementById('res-type').innerText = type;
+        document.getElementById('res-spec').innerText = spec;
+        
+        result.style.display = 'block';
+    }
+</script>
+
+<section id="fleet-section">
+    <div class="container">
+        <h2 style="text-align:center; margin-bottom:10px;">大電車両図鑑</h2>
+        <p style="text-align:center; font-size:14px; color:#666;">5桁の番号が語る、各系列のアイデンティティ</p>
+        
+        <div class="fleet-grid">
+            <div class="train-card b-gold">
+                <div class="train-img" style="background-image: url('https://images.unsplash.com/photo-1474487056217-76fe7ec7e821?auto=format&fit=crop&w=400&q=80');">特急 鳳凰</div>
+                <div class="spec-body">
+                    <span class="series-tag">SERIES 15xxx</span>
+                    <ul class="spec-list">
+                        <li><span>最高速</span><strong>120km/h</strong></li>
+                        <li><span>加速度</span><strong>2.0km/h/s</strong></li>
+                        <li><span>性格</span><strong>孤高の高級車</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="train-card b-green">
+                <div class="train-img" style="background-image: url('https://images.unsplash.com/photo-1560624052-449f5ddf0c31?auto=format&fit=crop&w=400&q=80');">京都線 普通</div>
+                <div class="spec-body">
+                    <span class="series-tag">SERIES 34xxx</span>
+                    <ul class="spec-list">
+                        <li><span>最高速</span><strong>110km/h</strong></li>
+                        <li><span>加速度</span><strong>3.5km/h/s</strong></li>
+                        <li><span>性格</span><strong>都会の仕事人</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="train-card b-green">
+                <div class="train-img" style="background-image: url('https://images.unsplash.com/photo-1555529733-0e670560f7e1?auto=format&fit=crop&w=400&q=80');">奈良線 普通</div>
+                <div class="spec-body">
+                    <span class="series-tag">SERIES 55xxx</span>
+                    <ul class="spec-list">
+                        <li><span>最高速</span><strong>100km/h</strong></li>
+                        <li><span>加速度</span><strong>3.5km/h/s</strong></li>
+                        <li><span>性格</span><strong>坂道のエキスパート</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="train-card" style="border-color:#7f8c8d;">
+                <div class="train-img" style="background-image: url('https://images.unsplash.com/photo-1550106401-443b7858c9b3?auto=format&fit=crop&w=400&q=80');">特急 まほろば</div>
+                <div class="spec-body">
+                    <span class="series-tag">SERIES 10xxx</span>
+                    <ul class="spec-list">
+                        <li><span>最高速</span><strong>130km/h</strong></li>
+                        <li><span>加速度</span><strong>2.5km/h/s</strong></li>
+                        <li><span>性格</span><strong>静寂の駿馬</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 Yamato Electric Railway Co., Ltd. <br> 全1,000両、5桁の信頼。 高槻総合車両所 / 生駒検車区</p>
+</footer>
+
+</body>
+</html>
