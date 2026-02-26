@@ -874,6 +874,124 @@
     });
 </script>
 
+<section id="route-map-section" class="container" style="margin-top: 50px;">
+    <div class="card" style="padding: 30px; background: #fff; overflow-x: auto;">
+        <h3 style="text-align: center; color: var(--main-navy); margin-bottom: 30px;">停車駅のご案内</h3>
+        
+        <div style="min-width: 800px; position: relative; padding: 20px 0;">
+            <div style="position: absolute; top: 120px; left: 0; right: 0; height: 80px; background: #f9f9f9; border-top: 1px solid #eee; border-bottom: 1px solid #eee; z-index: 1;"></div>
+            
+            <table style="width: 100%; border-collapse: collapse; position: relative; z-index: 2;">
+                <tr>
+                    <td style="width: 100px;"></td>
+                    <th class="station-name">大和大阪</th>
+                    <th class="station-name">新高槻</th>
+                    <th class="station-name">高槻総合</th>
+                    <th class="station-name">大和小泉</th>
+                    <th class="station-name">大和西大寺</th>
+                    <th class="station-name">大和奈良</th>
+                    <th class="station-name">大和京都</th>
+                </tr>
+                
+                <tr class="line-row">
+                    <td class="line-label t-nonstop">⚡直行</td>
+                    <td><div class="stop-dot s-nonstop"></div></td>
+                    <td><div class="pass-line s-nonstop"></div></td>
+                    <td><div class="pass-line s-nonstop"></div></td>
+                    <td><div class="pass-line s-nonstop"></div></td>
+                    <td><div class="pass-line s-nonstop"></div></td>
+                    <td><div class="stop-dot s-nonstop"></div></td>
+                    <td><div class="pass-line s-nonstop"></div></td>
+                </tr>
+                
+                <tr class="line-row">
+                    <td class="line-label t-hooh">✨特急</td>
+                    <td><div class="stop-dot s-hooh"></div></td>
+                    <td><div class="pass-line s-hooh"></div></td>
+                    <td><div class="stop-dot s-hooh"></div></td>
+                    <td><div class="pass-line s-hooh"></div></td>
+                    <td><div class="stop-dot s-hooh"></div></td>
+                    <td><div class="stop-dot s-hooh"></div></td>
+                    <td><div class="stop-dot s-hooh"></div></td>
+                </tr>
+
+                <tr class="line-row">
+                    <td class="line-label t-kqs">🧡快急</td>
+                    <td><div class="stop-dot s-kqs"></div></td>
+                    <td><div class="stop-dot s-kqs"></div></td>
+                    <td><div class="pass-line s-kqs"></div></td>
+                    <td><div class="pass-line s-kqs"></div></td>
+                    <td><div class="stop-dot s-kqs"></div></td>
+                    <td><div class="stop-dot s-kqs"></div></td>
+                    <td><div class="stop-dot s-kqs"></div></td>
+                </tr>
+
+                <tr class="line-row">
+                    <td class="line-label t-exp">💛急行</td>
+                    <td><div class="stop-dot s-exp"></div></td>
+                    <td><div class="stop-dot s-exp"></div></td>
+                    <td><div class="stop-dot s-exp"></div></td>
+                    <td><div class="pass-line s-exp"></div></td>
+                    <td><div class="stop-dot s-exp"></div></td>
+                    <td><div class="stop-dot s-exp"></div></td>
+                    <td><div class="stop-dot s-exp"></div></td>
+                </tr>
+
+                <tr class="line-row">
+                    <td class="line-label t-semi">💙準急</td>
+                    <td><div class="stop-dot s-semi"></div></td>
+                    <td><div class="stop-dot s-semi"></div></td>
+                    <td><div class="stop-dot s-semi"></div></td>
+                    <td><div class="stop-dot s-semi"></div></td>
+                    <td><div class="stop-dot s-semi"></div></td>
+                    <td><div class="pass-line s-semi"></div></td>
+                    <td><div class="pass-line s-semi"></div></td>
+                </tr>
+
+                <tr class="line-row">
+                    <td class="line-label t-sec-semi">💠区準</td>
+                    <td><div class="stop-dot s-sec-semi"></div></td>
+                    <td><div class="stop-dot s-sec-semi"></div></td>
+                    <td><div class="stop-dot s-sec-semi"></div></td>
+                    <td><div class="stop-dot s-sec-semi"></div></td>
+                    <td><div class="stop-dot s-sec-semi"></div></td>
+                    <td colspan="2" style="text-align: left; padding-left: 10px; font-size: 0.7rem; color: #16a085;">これより各駅に停車</td>
+                </tr>
+
+                <tr class="line-row">
+                    <td class="line-label t-lcl">●各停</td>
+                    <td><div class="stop-dot s-lcl"></div></td>
+                    <td><div class="stop-dot s-lcl"></div></td>
+                    <td><div class="stop-dot s-lcl"></div></td>
+                    <td><div class="stop-dot s-lcl"></div></td>
+                    <td><div class="stop-dot s-lcl"></div></td>
+                    <td><div class="stop-dot s-lcl"></div></td>
+                    <td><div class="stop-dot s-lcl"></div></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+<style>
+    .station-name { writing-mode: vertical-rl; text-orientation: upright; padding: 10px; font-size: 0.9rem; letter-spacing: 2px; height: 120px; vertical-align: bottom; }
+    .line-row td { height: 30px; text-align: center; position: relative; }
+    .line-label { font-size: 0.7rem; font-weight: bold; text-align: right !important; padding-right: 15px; }
+    
+    /* 停車ドットと通過線の基本設定 */
+    .stop-dot { width: 12px; height: 12px; border-radius: 50%; margin: 0 auto; z-index: 3; position: relative; border: 2px solid #fff; box-shadow: 0 0 2px rgba(0,0,0,0.3); }
+    .pass-line { width: 100%; height: 4px; position: absolute; top: 13px; left: 0; z-index: 2; }
+
+    /* 種別カラー設定 */
+    .s-nonstop { background: #000; } .s-nonstop.pass-line { background: #000; }
+    .s-hooh { background: var(--accent-gold); } .s-hooh.pass-line { background: var(--accent-gold); }
+    .s-kqs { background: #e67e22; } .s-kqs.pass-line { background: #e67e22; }
+    .s-exp { background: #f1c40f; } .s-exp.pass-line { background: #f1c40f; }
+    .s-semi { background: #2980b9; } .s-semi.pass-line { background: #2980b9; }
+    .s-sec-semi { background: #16a085; } .s-sec-semi.pass-line { background: #16a085; }
+    .s-lcl { background: #7f8c8d; } .s-lcl.pass-line { background: #7f8c8d; }
+</style>
+
 <footer>
     <p>&copy; 2026 Yamato Electric Railway Co., Ltd. <br> 全1,000両、5桁の信頼。 高槻総合車両所 / 生駒検車区</p>
 </footer>
