@@ -781,6 +781,99 @@
     </div>
 </section>
 
+<section id="timetable-section" class="container" style="margin-top: 50px;">
+    <div class="card" style="padding: 0; overflow: hidden; border-top: 5px solid var(--main-navy);">
+        <div style="background: var(--main-navy); color: white; padding: 20px; text-align: center;">
+            <h3 style="margin:0;">大和大阪駅 時刻表</h3>
+            <p style="margin:5px 0 0; font-size: 0.8rem; opacity: 0.8;">奈良・京都方面（種別刷新ダイヤ）</p>
+        </div>
+        
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; min-width: 650px;">
+                <thead style="background: #f8f9fa; border-bottom: 2px solid #ddd;">
+                    <tr>
+                        <th style="width: 60px; padding: 15px; text-align: center; border-right: 2px solid #ddd;">時</th>
+                        <th style="padding: 15px; text-align: left;">種別・行先・時刻</th>
+                    </tr>
+                </thead>
+                <tbody id="timetable-body">
+                    </tbody>
+            </table>
+        </div>
+
+        <div style="padding: 20px; background: #fefefe; border-top: 1px solid #eee; font-size: 0.75rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px;">
+            <div><span class="t-hooh">✨特急 鳳凰</span></div>
+            <div><span class="t-maho">🚅特急 まほろば</span></div>
+            <div><span class="t-cmt-l">🟣通勤特急</span></div>
+            <div><span class="t-nonstop">⚡直行</span></div>
+            <div><span class="t-kqs">🧡快速急行</span></div>
+            <div><span class="t-exp">💛急行</span></div>
+            <div><span class="t-semi">💙準急</span></div>
+            <div><span class="t-sec-semi">💠区間準急</span></div>
+            <div><span class="t-lcl">●各駅停車</span></div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .time-slot { display: inline-block; margin-right: 10px; padding: 4px 6px; border-radius: 4px; font-size: 1.1rem; }
+    .t-hooh { color: var(--accent-gold); font-weight: bold; }
+    .t-maho { color: var(--express-red); font-weight: bold; }
+    .t-cmt-l { color: #8e44ad; font-weight: bold; border-bottom: 2px solid #8e44ad; }
+    .t-nonstop { background: #000; color: #fff; font-weight: bold; padding: 2px 6px; }
+    .t-kqs { color: #e67e22; font-weight: bold; }
+    .t-exp { color: #f1c40f; text-shadow: 1px 1px 0 #000; font-weight: bold; }
+    /* 区間急行を削除し、区間準急を新設 */
+    .t-sec-semi { color: #16a085; font-weight: bold; border-bottom: 2px dashed #16a085; }
+    .t-semi { color: #2980b9; font-weight: bold; }
+    .t-lcl { color: #7f8c8d; }
+    .dest { font-size: 0.6rem; vertical-align: super; margin-left: 1px; color: #333; font-weight: normal; }
+</style>
+
+<script>
+    const updatedData = [
+        { hr: 5, trains: [{s:'lcl', m:'10', d:'高'}, {s:'lcl', m:'30', d:'奈'}, {s:'semi', m:'45', d:'京'}, {s:'sec-semi', m:'58', d:'奈'}] },
+        { hr: 6, trains: [{s:'lcl', m:'05', d:'奈'}, {s:'sec-semi', m:'15', d:'京'}, {s:'exp', m:'25', d:'奈'}, {s:'kqs', m:'38', d:'奈'}, {s:'hooh', m:'48', d:'奈'}, {s:'cmt-l', m:'58', d:'京'}] },
+        { hr: 7, trains: [{s:'nonstop', m:'05', d:'奈'}, {s:'cmt-l', m:'12', d:'奈'}, {s:'kqs', m:'18', d:'京'}, {s:'sec-semi', m:'25', d:'奈'}, {s:'maho', m:'32', d:'奈'}, {s:'exp', m:'40', d:'京'}, {s:'cmt-l', m:'48', d:'奈'}, {s:'lcl', m:'55', d:'高'}] },
+        { hr: 8, trains: [{s:'nonstop', m:'04', d:'奈'}, {s:'hooh', m:'12', d:'奈'}, {s:'kqs', m:'20', d:'京'}, {s:'sec-semi', m:'28', d:'奈'}, {s:'exp', m:'38', d:'奈'}, {s:'maho', m:'48', d:'京'}, {s:'sec-semi', m:'58', d:'奈'}] },
+        { hr: 9, trains: [{s:'hooh', m:'10', d:'奈'}, {s:'kqs', m:'22', d:'京'}, {s:'exp', m:'35', d:'奈'}, {s:'semi', m:'45', d:'奈'}, {s:'sec-semi', m:'55', d:'高'}] },
+        { hr: '10-15', trains: [{s:'hooh', m:'00', d:'奈'}, {s:'lcl', m:'12', d:'高'}, {s:'sec-semi', m:'22', d:'京'}, {s:'exp', m:'37', d:'奈'}, {s:'maho', m:'47', d:'奈'}, {s:'lcl', m:'58', d:'奈'}] },
+        { hr: 16, trains: [{s:'lcl', m:'05', d:'奈'}, {s:'sec-semi', m:'18', d:'京'}, {s:'exp', m:'32', d:'奈'}, {s:'kqs', m:'45', d:'奈'}, {s:'hooh', m:'58', d:'奈'}] },
+        { hr: 17, trains: [{s:'kqs', m:'05', d:'京'}, {s:'exp', m:'15', d:'奈'}, {s:'sec-semi', m:'25', d:'奈'}, {s:'hooh', m:'38', d:'奈'}, {s:'nonstop', m:'48', d:'奈'}, {s:'kqs', m:'58', d:'京'}] },
+        { hr: 18, trains: [{s:'maho', m:'08', d:'奈'}, {s:'kqs', m:'18', d:'奈'}, {s:'exp', m:'30', d:'京'}, {s:'sec-semi', m:'42', d:'奈'}, {s:'hooh', m:'55', d:'奈'}] },
+        { hr: 19, trains: [{s:'kqs', m:'10', d:'京'}, {s:'exp', m:'22', d:'奈'}, {s:'semi', m:'35', d:'奈'}, {s:'hooh', m:'50', d:'奈'}, {s:'sec-semi', m:'58', d:'高'}] },
+        { hr: 20, trains: [{s:'exp', m:'05', d:'奈'}, {s:'sec-semi', m:'22', d:'京'}, {s:'lcl', m:'40', d:'奈'}, {s:'lcl', m:'55', d:'高'}] },
+        { hr: 21, trains: [{s:'hooh', m:'15', d:'奈'}, {s:'exp', m:'35', d:'高'}, {s:'sec-semi', m:'52', d:'奈'}] },
+        { hr: 22, trains: [{s:'sec-semi', m:'12', d:'奈'}, {s:'lcl', m:'35', d:'高'}, {s:'lcl', m:'55', d:'奈'}] },
+        { hr: 23, trains: [{s:'lcl', m:'10', d:'高'}, {s:'lcl', m:'35', d:'高'}] }
+    ];
+
+    const tBody = document.getElementById('timetable-body');
+    updatedData.forEach(row => {
+        const isRange = typeof row.hr === 'string';
+        const hours = isRange ? [10, 11, 12, 13, 14, 15] : [row.hr];
+        
+        hours.forEach(h => {
+            const tr = document.createElement('tr');
+            tr.style.borderBottom = "1px solid #eee";
+            const tdH = document.createElement('td');
+            tdH.style.cssText = "text-align:center; font-weight:bold; background:#fbfbfb; border-right:2px solid #ddd; padding:12px;";
+            tdH.innerText = h;
+            const tdT = document.createElement('td');
+            tdT.style.padding = "10px";
+            row.trains.forEach(t => {
+                const s = document.createElement('span');
+                s.className = `time-slot t-${t.s}`;
+                s.innerHTML = `${t.m}<span class="dest">${t.d}</span>`;
+                tdT.appendChild(s);
+            });
+            tr.appendChild(tdH);
+            tr.appendChild(tdT);
+            tBody.appendChild(tr);
+        });
+    });
+</script>
+
 <footer>
     <p>&copy; 2026 Yamato Electric Railway Co., Ltd. <br> 全1,000両、5桁の信頼。 高槻総合車両所 / 生駒検車区</p>
 </footer>
