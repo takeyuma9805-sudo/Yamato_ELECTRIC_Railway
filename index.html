@@ -63,18 +63,14 @@
         }
 
         /* メインビジュアル */
+        /* 68行目付近を以下のように修正 */
         .hero {
             height: 400px;
             background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2)), 
-                        url('https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?auto=format&fit=crop&w=1200&q=80');
+                /* 京都や奈良を彷彿とさせる鉄道のフリー素材画像へ変更 */
+                url('https://images.unsplash.com/photo-1570610159825-ec5d382d666b?auto=format&fit=crop&w=1200&q=80');
             background-size: cover;
             background-position: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
         }
 
         .hero h2 { font-size: 36px; margin-bottom: 10px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
@@ -174,8 +170,11 @@
 </div>
 
 <div class="hero">
-    <h2>古都の風を、最新の技術で。</h2>
-    <p>1,000両の5桁ナンバリング、大和の誇り。</p>
+    <div class="hero-content">
+        <h2>古都の風を、最新の技術で。</h2>
+        <p>1,000両の5桁ナンバリング、大和の誇り。</p>
+    </div>
+    <img src="C#15201.png" class="hero-train-layer" alt="15系~houou~">
 </div>
 
 <section id="unified-booking" class="card" style="border-top: 5px solid #ccc; padding: 40px; background: white; border-radius: 15px; transition: border-color 0.5s ease;">
