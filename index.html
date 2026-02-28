@@ -159,7 +159,7 @@
     <div class="logo"><h1>大和電気鉄道</h1></div>
     <nav>
     <ul>
-        <li onclick="location.href='#timetable'">時刻表</li>
+        <li><a href="#timetable-section" style="color: inherit; text-decoration: none;">時刻表</a></li>
         <li><a href="#fare-info" style="color: inherit; text-decoration: none;">運賃案内</a></li>
         <li><a href="#fleet-section" style="color: inherit; text-decoration: none;">車両図鑑</a></li>
         <li>Yamato-ca</li>
@@ -556,77 +556,6 @@
         document.getElementById('result-point').innerText = point;
     }
 </script>
-
-<section id="timetable" style="padding: 60px 0; background-color: #f8f9fa;">
-    <div class="container">
-        <h2 style="text-align: center; color: var(--main-navy); margin-bottom: 5px;">標準時刻表</h2>
-        <p style="text-align: center; font-size: 0.9rem; color: #666; margin-bottom: 30px;">大和大阪駅：1〜8番線（京都・奈良方面）</p>
-
-        <div style="background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden;">
-            <div style="display: flex; background: var(--main-navy); color: white;">
-                <div style="padding: 15px 25px; background: var(--accent-gold); color: var(--main-navy); font-weight: bold;">平日ダイヤ</div>
-                <div style="padding: 15px 25px; opacity: 0.7;">土休日ダイヤ</div>
-            </div>
-
-            <div style="padding: 20px; overflow-x: auto;">
-                <table style="width: 100%; border-collapse: collapse; min-width: 600px;">
-                    <thead style="background: #eee; font-size: 0.8rem;">
-                        <tr>
-                            <th style="padding: 10px; text-align: center; width: 60px;">時</th>
-                            <th style="padding: 10px; text-align: left;">発車時刻・種別・行先 (車両系列)</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-family: 'Helvetica Neue', sans-serif;">
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="text-align: center; font-weight: bold; background: #fdfdfd; font-size: 1.2rem;">8</td>
-                            <td style="padding: 15px;">
-                                <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
-                                    <span title="30系">🔴<strong>02</strong> 快急 京都</span>
-                                    <span title="34系" style="color: var(--local-green);">🟢05 普通 高槻</span>
-                                    <span title="10系" style="color: var(--express-red);">特<strong>12</strong> まほろば 奈良</span>
-                                    <span title="55系" style="color: var(--local-green);">🟢15 普通 奈良</span>
-                                    <span title="30系">🔴<strong>22</strong> 快急 京都</span>
-                                    <span title="34系" style="color: var(--local-green);">🟢25 普通 高槻</span>
-                                    <span title="15系+90系" style="border: 1px solid var(--accent-gold); padding: 2px 5px; border-radius: 4px;">
-                                        ✨<strong>30</strong> 鳳凰 奈良
-                                    </span>
-                                    <span title="34系" style="color: var(--local-green);">🟢35 普通 高槻</span>
-                                    <span title="50系">🔴<strong>42</strong> 快急 奈良</span>
-                                    <span title="55系" style="color: var(--local-green);">🟢45 普通 奈良</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="text-align: center; font-weight: bold; background: #fdfdfd; font-size: 1.2rem;">9</td>
-                            <td style="padding: 15px;">
-                                <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
-                                    <span title="30系">🔴<strong>02</strong> 快急 京都</span>
-                                    <span title="34系" style="color: var(--local-green);">🟢05 普通 高槻</span>
-                                    <span title="50系">🔴<strong>12</strong> 快急 奈良</span>
-                                    <span title="55系" style="color: var(--local-green);">🟢15 普通 奈良</span>
-                                    <span title="15系+90系" style="border: 1px solid var(--accent-gold); padding: 2px 5px; border-radius: 4px;">
-                                        ✨<strong>30</strong> 鳳凰 奈良
-                                    </span>
-                                    <span title="34系" style="color: var(--local-green);">🟢35 普通 高槻</span>
-                                    <span title="10系" style="color: var(--express-red);">特<strong>42</strong> まほろば 京都</span>
-                                    <span title="55系" style="color: var(--local-green);">🟢45 普通 奈良</span>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div style="padding: 15px; background: #f9f9f9; font-size: 0.75rem; display: flex; gap: 20px; color: #555;">
-                <span>🔴...快速急行 (30/50系)</span>
-                <span>🟢...普通 (34/55系)</span>
-                <span>✨...特急鳳凰 (15系+90系連結)</span>
-                <span>特...特急まほろば (10系)</span>
-            </div>
-        </div>
-        <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">※鳳凰は4〜7号車（15系）が特別車両、1〜3号車（90系）が一般車両となります。</p>
-    </div>
-</section>
 
 <section id="train-location" style="padding: 60px 0; background-color: #001f3f; color: white;">
     <div class="container">
